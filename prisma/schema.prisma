@@ -12,27 +12,48 @@ datasource db {
 
 
 model Product {
-  idProduct String @unique
+  idProduct       String @unique
+  nameProduct     String
+  price           Int @default(0)
+  createdAt       DateTime @default(now())
+  imgMainProduct  String
+  description     DescriptionProduct @relation(fields: [descriptionId], references: [idDescription])
+  descriptionId   String
+}
+
+model DescriptionProduct{
+  idDescription   String @unique
+  desc            String
+  stock           Int
+  descImg         descImg @relation(fields: [descImgId], references: [idDescImg])
+  descImgId       String
+  product         Product[]
+}
+ 
+model descImg{
+  idDescImg String @unique
+  imgs      String
+  product   DescriptionProduct [] 
 }
 
 
 model User {
-  idUser String @unique
-  name String 
-  lastName String
-  userName String
-  email String @unique
-  password String
+  idUser    String @unique
+  name      String 
+  lastName  String
+  userName  String
+  email     String @unique
+  password  String
   createdAt DateTime @default(now())
-  isActive Boolean @default(true)
-  role Role @relation(fields: [roleId], references: [idRole])
-  roleId String
+  isActive  Boolean @default(true)
+  role      Role @relation(fields: [roleId], references: [idRole])
+  roleId    String
 }
 
 model Role{
-  idRole String @unique
-  roleName String @unique
-  createAt DateTime @default(now())
-  user User[]
+  idRole    String @unique
+  roleName  String @unique
+  createAt  DateTime @default(now())
+  user      User[]
 }
 
