@@ -1,0 +1,8 @@
+# We are hidding node modules, package-lock and .env 
+# for .env referrs to the example.env for more info
+
+/node_modules
+
+.env
+
+package-lock.json
