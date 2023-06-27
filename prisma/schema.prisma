@@ -11,49 +11,120 @@ datasource db {
 }
 
 
+//  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR PRODUCTS ----------------
+
 model Product {
-  idProduct       String @unique
-  nameProduct     String
-  price           Int @default(0)
-  createdAt       DateTime @default(now())
-  imgMainProduct  String
-  description     DescriptionProduct @relation(fields: [descriptionId], references: [idDescription])
-  descriptionId   String
+  idProduct        String @unique
+  name_Product     String
+  price            Int @default(0)
+  created_At       DateTime @default(now())
+  img_Main_Product String?
+  description      DescriptionProduct? @relation(fields: [descriptionId], references: [idDescription])
+  descriptionId    String?
+  category         Category @relation(fields: [categoeryId], references: [idCategory])
+  categoeryId      String
+  orderItems       OrderItems[]
 }
 
 model DescriptionProduct{
   idDescription   String @unique
   desc            String
-  stock           Int
-  descImg         descImg @relation(fields: [descImgId], references: [idDescImg])
-  descImgId       String
+  stock           Int @default(0)
+  descImg         descImg? @relation(fields: [descImgId], references: [idDescImg])
+  descImgId       String?
   product         Product[]
 }
  
 model descImg{
   idDescImg String @unique
-  imgs      String
+  imgs      String?
   product   DescriptionProduct [] 
 }
 
+model Category {
+  idCategory   String @unique
+  categoryName String @unique
+  createAt     DateTime @default(now())
+  product      Product[]
+}
+
+//  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR ORDERS ---------------
+
+model Orders {
+  idOrders    String @unique
+  id          Int @unique @default(autoincrement())
+  order_Date  DateTime @default(now())
+  total_amout Decimal @db.Decimal(10, 2)
+  status      String
+  user        User @relation(fields: [userId], references: [idUser])
+  userId      String
+  order_Items OrderItems[]
+}
+
+model OrderItems {
+  idOrderItems   String @unique
+  quiantity      Int
+  price          Decimal @db.Decimal(10, 2)
+  order          Orders @relation(fields: [orderId], references: [idOrders])
+  orderId        String
+  product        Product @relation(fields: [productId], references: [idProduct])
+  productId      String
+}
+
+//  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR USERS ----------------
 
 model User {
-  idUser    String @unique
-  name      String 
-  lastName  String
-  userName  String
-  email     String @unique
-  password  String
-  createdAt DateTime @default(now())
-  isActive  Boolean @default(true)
-  role      Role @relation(fields: [roleId], references: [idRole])
-  roleId    String
+  idUser             String @unique
+  username           String @unique
+  email              String @unique
+  password           String
+  created_At         DateTime @default(now())
+  is_Active          Boolean @default(true)
+  role               Role @relation(fields: [roleId], references: [idRole])
+  roleId             String
+  contactInformation ContactInformation? @relation(fields: [contactInfo_Id], references: [idContact])
+  contactInfo_Id     String?
+  orders             Orders[]
+}
+
+model ContactInformation {
+  idContact     String @unique
+  name          String 
+  last_Name     String?
+  address       Address? @relation(fields: [addressId], references: [idAddress])
+  addressId     String?
+  phoneNumber   PhoneNumber? @relation(fields: [phoneNumberid], references: [idPhoneNumber])
+  phoneNumberid String?
+  user          User[]
+}
+
+model PhoneNumber {
+  idPhoneNumber String @unique
+  phone_number  Int @unique
+  contact_information ContactInformation[]
+}
+
+model Address {
+  idAddress      String @unique
+  address_line_1 String
+  address_line_2 String?
+  city           String
+  type_state     typeState? @relation(fields: [stateId], references: [idTypeState])
+  stateId        String?
+  zip_code       Int
+  contact_information ContactInformation[]
+}
+
+model typeState {
+  idTypeState         String @unique
+  type_state          String @unique
+  address Address[]
 }
 
 model Role{
   idRole    String @unique
-  roleName  String @unique
-  createAt  DateTime @default(now())
+  role_Name  String @unique
+  create_At  DateTime @default(now())
   user      User[]
 }
 
