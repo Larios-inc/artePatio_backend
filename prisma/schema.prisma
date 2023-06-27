@@ -15,7 +15,7 @@ datasource db {
 
 model Product {
   idProduct        String @unique
-  name_Product     String
+  name_Product     String @unique
   price            Int @default(0)
   created_At       DateTime @default(now())
   img_Main_Product String?
@@ -24,6 +24,8 @@ model Product {
   category         Category @relation(fields: [categoeryId], references: [idCategory])
   categoeryId      String
   orderItems       OrderItems[]
+  monthlySale      MonthlySale[]
+  topSale          TopSale[]
 }
 
 model DescriptionProduct{
@@ -59,6 +61,8 @@ model Orders {
   user        User @relation(fields: [userId], references: [idUser])
   userId      String
   order_Items OrderItems[]
+
+  @@id([idOrders,id, userId])
 }
 
 model OrderItems {
@@ -69,6 +73,8 @@ model OrderItems {
   orderId        String
   product        Product @relation(fields: [productId], references: [idProduct])
   productId      String
+
+  @@id([idOrderItems, orderId, productId])
 }
 
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR USERS ----------------
@@ -85,17 +91,23 @@ model User {
   contactInformation ContactInformation? @relation(fields: [contactInfo_Id], references: [idContact])
   contactInfo_Id     String?
   orders             Orders[]
+  monthlySale        MonthlySale[]
+  topSale            TopSale[]
+
+  @@id([idUser, username, email, roleId])
 }
 
 model ContactInformation {
   idContact     String @unique
   name          String 
   last_Name     String?
-  address       Address? @relation(fields: [addressId], references: [idAddress])
-  addressId     String?
-  phoneNumber   PhoneNumber? @relation(fields: [phoneNumberid], references: [idPhoneNumber])
-  phoneNumberid String?
+  address       Address @relation(fields: [addressId], references: [idAddress])
+  addressId     String
+  phoneNumber   PhoneNumber @relation(fields: [phoneNumberid], references: [idPhoneNumber])
+  phoneNumberid String
   user          User[]
+
+  @@id([idContact, addressId, phoneNumberid])
 }
 
 model PhoneNumber {
@@ -128,3 +140,31 @@ model Role{
   user      User[]
 }
 
+//  ----------------- HERE WE ARE SETTING THE MODELS FOR TOP SALES ----------------
+
+model MonthlySale {
+  idMonthSale    String @unique
+  month          String
+  dateTime       DateTime 
+  customer       User @relation(fields: [customer_id], references: [idUser])
+  customer_id    String
+  product        Product @relation(fields: [product_name], references: [name_Product])
+  product_name   String
+  revenue        Decimal @db.Decimal(10,2)
+  revenue_rank   Int
+
+  @@id([idMonthSale, customer_id, product_name])
+}
+
+model TopSale {
+  idTopSale      String @unique
+  month          DateTime
+  customer       User @relation(fields: [customer_id], references: [idUser])
+  customer_id    String
+  product        Product @relation(fields: [product_name], references: [name_Product])
+  product_name   String
+  revenue        Decimal
+  revenue_rank   Int
+
+  @@id([idTopSale, customer_id,product_name])
+}
