@@ -2,8 +2,10 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 // db Routes 
-import productRouter from '../routes/db-routes/products.routes'
-
+import productRouter from '../routes/db-routes/routes-products/products.routes'
+import categoryRouter from '../routes/db-routes/routes-products/categories.routes'
+import imgRouter from '../routes/db-routes/routes-products/descImg.routes'
+import descriptionRouter from '../routes/db-routes/routes-products/description.routes'
 // JWT routes
 
 class Server{
@@ -12,7 +14,10 @@ class Server{
     private port: string;
     // here we are setting our paths
     private apiPaths = {
-        produt:'/artepatio/products',
+        product:'/artepatio/products',
+        category:'/artepatio/categories',
+        img:'/artepatio/descimg',
+        description:'/artepatio/categories',
     }
 
     constructor(){
@@ -29,7 +34,10 @@ class Server{
     }
 
     routes(){
-        this.app.use( this.apiPaths.produt, productRouter )
+        this.app.use( this.apiPaths.product, productRouter )
+        this.app.use( this.apiPaths.category, categoryRouter)
+        this.app.use( this.apiPaths.img, imgRouter )
+        this.app.use( this.apiPaths.description, descriptionRouter)
     }
 
     listen(){
