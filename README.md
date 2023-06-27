@@ -2,12 +2,23 @@ Proyect where we are creating a back-end for Music App
 --
 -   WORKING WITH : NODE.js (express), PRISMA, POSTGRESSQL.
 
-- Data Base has 3 tables
+- Data Base has many tables
     - 1 - for User  
-    - 2 - Artist 
-    - 3 - song
-    - (a lot of users likes many song but songs have only one artis)
-    - Db will be a SQL DB
+        - ContactInformation
+        - PhoneNumber
+        - Address
+        - typeState
+    - 2 - Role
+    - 3 - Orders
+        -  OrderItems
+    - 4 - Product
+        - DescriptionProduct
+        - descImg
+    - 5 - Category
+    - 6 - MonthlySale
+    - 7 - TopSale
+    
+    - Db will be a SQL Database
 
 - `We are runing npm for installations`
 
