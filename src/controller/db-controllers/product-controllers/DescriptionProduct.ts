@@ -8,7 +8,7 @@ interface DataDescription {
     idDescription : string
     desc : string
     stock : number
-    descImgId: string
+    productId: string
 }
 
 export const getAllDescription = async (req:Request, res:Response, next:NextFunction) => {
@@ -38,7 +38,7 @@ export const getOneDescription = async (req:Request, res:Response, next:NextFunc
                 idDescription
             },
             include:{
-                product: true
+                descImg: true
             }
         })
 
@@ -57,7 +57,7 @@ export const getOneDescription = async (req:Request, res:Response, next:NextFunc
 
 export const createDescription = async (req:Request, res:Response, next:NextFunction) => {
 
-    const { desc, stock, descImgId } = req.body
+    const { desc, stock, productId } = req.body
 
     try {
 
@@ -67,7 +67,7 @@ export const createDescription = async (req:Request, res:Response, next:NextFunc
             idDescription: id,
             desc,
             stock,
-            descImgId
+            productId
         }
 
         await descriptionProduct.create({ data: postDescription})
@@ -88,14 +88,14 @@ export const createDescription = async (req:Request, res:Response, next:NextFunc
 export const updateDescription = async (req:Request, res:Response, next:NextFunction) => {
 
     const { idDescription } = req.params
-    const { desc, stock, descImgId }:DataDescription = req.body
+    const { desc, stock, ...resto }:DataDescription = req.body
 
     try {
         
         const updateDescription = {
             desc,
             stock,
-            descImgId
+            resto
         }
 
         await descriptionProduct.update({

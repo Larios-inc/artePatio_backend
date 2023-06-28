@@ -20,7 +20,8 @@ model Product {
   created_At       DateTime @default(now())
   img_Main_Product String?
   description      DescriptionProduct[]
-  category         Category[]
+  category         Category @relation(fields: [categoryId], references: [idCategory])
+  categoryId       String
   orderItems       OrderItems[]
   monthlySale      MonthlySale[]
   topSale          TopSale[]
@@ -33,19 +34,21 @@ model DescriptionProduct{
   desc            String
   desc_1          String?
   stock           Int @default(0)
-  descImg         descImg @relation(fields: [descImgId], references: [idDescImg])
-  descImgId       String
+  // descImg         descImg @relation(fields: [descImgId], references: [idDescImg])
+  // descImgId       String
+  descImg         descImg[]
   product         Product @relation(fields: [productId], references: [idProduct])
   productId       String
 
-  @@id([idDescription, descImgId, productId])
+  @@id([idDescription, productId])
 }
  
 model descImg{
   idDescImg String @unique
   imgs      String?
-  product   DescriptionProduct [] 
-
+  // product   DescriptionProduct [] 
+  DescriptionProduct DescriptionProduct @relation(fields: [DescriptionProductID], references: [idDescription])
+  DescriptionProductID String
   @@id([idDescImg])
 }
 
@@ -53,10 +56,10 @@ model Category {
   idCategory   String @unique
   categoryName String @unique
   createAt     DateTime @default(now())
-  product      Product @relation(fields: [productId], references: [idProduct])
-  productId     String
+  // product      Product @relation(fields: [productId], references: [idProduct])
+  product     Product[]
 
-  @@id([idCategory, productId])
+  @@id([idCategory])
 }
 
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR ORDERS ---------------

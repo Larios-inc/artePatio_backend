@@ -9,13 +9,12 @@ interface DataProducts {
     name_Product: string
     price:        number
     img_Main_Product:string
-    descriptionId:string
-    categoeryId:  string
+    categoryId:  string
 }
 
 export const createProduct = async( req:Request, res:Response, next:NextFunction ) => {
 
-    const {name_Product, price, img_Main_Product, descriptionId, categoeryId}:DataProducts = req.body
+    const {name_Product, price, img_Main_Product, categoryId}:DataProducts = req.body
 
     try {
         
@@ -26,8 +25,8 @@ export const createProduct = async( req:Request, res:Response, next:NextFunction
             name_Product,
             price,
             img_Main_Product,
-            descriptionId,
-            categoeryId
+            // descriptionId,
+            categoryId
         }
 
         await product.create({ data: postProduct})
