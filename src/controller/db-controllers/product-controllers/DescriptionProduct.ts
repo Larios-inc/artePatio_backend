@@ -7,6 +7,7 @@ const { descriptionProduct } = new PrismaClient()
 interface DataDescription {
     idDescription : string
     desc : string
+    desc_1: string
     stock : number
     productId: string
 }
@@ -15,7 +16,7 @@ export const getAllDescription = async (req:Request, res:Response, next:NextFunc
     
     try {
         
-        const allDescription = await descriptionProduct.findMany()
+        const allDescription = await descriptionProduct.findMany({include:{descImg:true}})
 
         res.status(200).json({allDescription})
 
@@ -57,7 +58,7 @@ export const getOneDescription = async (req:Request, res:Response, next:NextFunc
 
 export const createDescription = async (req:Request, res:Response, next:NextFunction) => {
 
-    const { desc, stock, productId } = req.body
+    const { desc, desc_1, stock, productId } = req.body
 
     try {
 
@@ -66,6 +67,7 @@ export const createDescription = async (req:Request, res:Response, next:NextFunc
         const postDescription: DataDescription = {
             idDescription: id,
             desc,
+            desc_1,
             stock,
             productId
         }

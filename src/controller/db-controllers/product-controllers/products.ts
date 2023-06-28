@@ -59,7 +59,8 @@ export const getByIdProduct = async( req:Request, res:Response, next:NextFunctio
             include:{
                 orderItems: true,
                 monthlySale : true,
-                topSale: true
+                topSale: true,
+                description: true
             }
         })
 

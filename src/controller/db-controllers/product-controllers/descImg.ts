@@ -7,6 +7,7 @@ const { descImg } = new PrismaClient()
 interface DataDescImg {
     idDescImg: string
     imgs: string
+    DescriptionProductID: string
 }
 
 export const getAllDescImg = async (req: Request, res: Response, next:NextFunction) =>{
@@ -32,9 +33,6 @@ export const getOneDescImg = async (req: Request, res: Response, next:NextFuncti
         const onedescImg = await descImg.findFirst({ 
             where:{
                 idDescImg 
-            },
-            include:{
-                product:true
             }
         })
 
@@ -51,7 +49,7 @@ export const getOneDescImg = async (req: Request, res: Response, next:NextFuncti
 
 export const createDescImg = async (req: Request, res: Response, next:NextFunction) =>{
     
-    const { imgs } = req.body
+    const { imgs, DescriptionProductID } = req.body
 
     try {
         
@@ -59,7 +57,8 @@ export const createDescImg = async (req: Request, res: Response, next:NextFuncti
 
         const postDesImg: DataDescImg = {
             idDescImg: id,
-            imgs
+            imgs,
+            DescriptionProductID
         }
 
         await descImg.create({ data: postDesImg})
