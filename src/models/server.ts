@@ -17,7 +17,7 @@ class Server{
         product:'/artepatio/products',
         category:'/artepatio/categories',
         img:'/artepatio/descimg',
-        description:'/artepatio/categories',
+        description:'/artepatio/descriptions',
     }
 
     constructor(){
