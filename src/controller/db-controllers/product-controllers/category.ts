@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 const { category } = new PrismaClient()
 
 interface DataCate {
-    idCategory: string,
-    categoryName: string,
+    idCategory: string
+    categoryName: string
 }
 
 export const getAllCategories = async (req:Request, res:Response, next:NextFunction) => {
@@ -58,7 +58,7 @@ export const getCategory = async (req:Request, res:Response, next:NextFunction) 
 
 export const createCategory = async (req:Request, res:Response, next:NextFunction) => {
 
-    const { categoryName } = req.body;
+    const { categoryName }:DataCate = req.body;
 
     try {
         
@@ -86,7 +86,7 @@ export const createCategory = async (req:Request, res:Response, next:NextFunctio
 export const updateCategory = async (req:Request, res:Response, next:NextFunction) => {
 
     const { idCategory } = req.params
-    const { categoryName } = req.body
+    const { categoryName }:DataCate = req.body
 
     try {
         

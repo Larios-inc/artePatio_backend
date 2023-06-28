@@ -2,11 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 // db Routes 
-import productRouter from '../routes/db-routes/routes-products/products.routes'
-import categoryRouter from '../routes/db-routes/routes-products/categories.routes'
-import imgRouter from '../routes/db-routes/routes-products/descImg.routes'
-import descriptionRouter from '../routes/db-routes/routes-products/description.routes'
-// JWT routes
+import {productRouter, categoryRouter, descriptionRouter, imgRouter} from '../routes'
 
 class Server{
 

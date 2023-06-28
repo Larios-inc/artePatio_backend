@@ -87,11 +87,55 @@ export const createDescription = async (req:Request, res:Response, next:NextFunc
 
 export const updateDescription = async (req:Request, res:Response, next:NextFunction) => {
 
+    const { idDescription } = req.params
+    const { desc, stock, descImgId }:DataDescription = req.body
+
+    try {
+        
+        const updateDescription = {
+            desc,
+            stock,
+            descImgId
+        }
+
+        await descriptionProduct.update({
+            where:{
+                idDescription
+            },
+            data: updateDescription
+        })
+
+        res.status(202).json({
+            msg:'description posted',
+            updateDescription
+        })
+
+    } catch (error) {
+        return console.log(
+            res.status(401).json(next(error))
+        );
+    }
 
 }
 
 export const deleteDescription = async (req:Request, res:Response, next:NextFunction) => {
 
+    const { idDescription } = req.params
 
+    try {
+        
+        const description = await descriptionProduct.delete({
+            where:{
+                idDescription
+            }
+        })
+
+        return res.status(206).json(description)
+
+    } catch (error) {
+        return console.log(
+            res.status(401).json(next(error))
+        );
+    }
 
 }
