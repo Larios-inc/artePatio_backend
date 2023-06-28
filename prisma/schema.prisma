@@ -49,7 +49,7 @@ model descImg{
   // product   DescriptionProduct [] 
   DescriptionProduct DescriptionProduct @relation(fields: [DescriptionProductID], references: [idDescription])
   DescriptionProductID String
-  @@id([idDescImg])
+  @@id([idDescImg, DescriptionProductID])
 }
 
 model Category {
