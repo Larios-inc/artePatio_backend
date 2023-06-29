@@ -18,6 +18,7 @@ model Product {
   name_Product     String @unique
   price            Int @default(0)
   created_At       DateTime @default(now())
+  is_Active        Boolean @default(true)
   img_Main_Product String?
   description      DescriptionProduct[]
   category         Category @relation(fields: [categoryId], references: [idCategory])
@@ -74,7 +75,7 @@ model Orders {
   userId      String
   order_Items OrderItems[]
 
-  @@id([idOrders,id, userId])
+  @@id([idOrders, userId])
 }
 
 model OrderItems {
@@ -155,6 +156,18 @@ model Role{
   role_Name  String @unique
   create_At  DateTime @default(now())
   user      User[]
+  permissions permissions @relation(fields: [permissionsId], references: [idPermissions])
+  permissionsId String
+
+  @@id([idRole, permissionsId])
+}
+
+model permissions{
+  idPermissions   String @unique
+  permissin       String @unique
+  role Role[]
+
+  @@id([idPermissions])
 }
 
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR TOP SALES ----------------

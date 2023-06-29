@@ -43,6 +43,22 @@ export const createProduct = async( req:Request, res:Response, next:NextFunction
 }
 export const getAllProducts = async( req:Request, res:Response, next:NextFunction ) => {
 
+    try {
+    
+        const allProducts = await product.findMany({
+            where:{
+                is_Active: true
+            }
+        })
+
+        return res.status(200).json({
+            msg:'all products',
+            allProducts
+        })
+        
+    } catch (error) {
+        next(error)
+    }
 
 
 }
@@ -64,6 +80,12 @@ export const getByIdProduct = async( req:Request, res:Response, next:NextFunctio
             }
         })
 
+        if( getProduct.is_Active === false) {
+            return res.status(403).json({
+                msg:'product not at inventory'
+            })
+        }
+
         res.status(200).json({
             msg:'get one product',
             getProduct
@@ -74,11 +96,57 @@ export const getByIdProduct = async( req:Request, res:Response, next:NextFunctio
     }
 
 }
+
 export const UpdateProduct = async( req:Request, res:Response, next:NextFunction ) => {
 
+    const { idProduct } = req.params
+    const {name_Product, price, ...resto }:DataProducts = req.body
+
+    try {
+        
+        const putProduct :DataProducts = {
+            name_Product,
+            price,
+            ...resto
+        }
+
+        await product.update({
+            where:{
+                idProduct
+            },
+            data: putProduct
+        })
+
+        return res.status(202).json({
+            msg:"product updated succesfully",
+            putProduct
+        })
+
+    } catch (error) {
+        next(error)
+    }
 
 }
+
 export const DeleteProduct = async( req:Request, res:Response, next:NextFunction ) => {
 
+    const {idProduct } = req.params
+
+    try {
+
+        const productDelete = await product.update({
+            where:{
+                idProduct
+            },
+            data:{
+                is_Active: false
+            }
+        })
+
+        res.status(204).json(productDelete)
+        
+    } catch (error) {
+        next(error)
+    }
 
 }

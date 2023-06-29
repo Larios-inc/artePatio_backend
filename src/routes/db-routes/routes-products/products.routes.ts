@@ -7,11 +7,18 @@ import { getAllProducts,
          createProduct,
          getByIdProduct} from "../../../controller/db-controllers/product-controllers/products";
 
+
+import { validateAreas } from "../../../middlewares/roles/validate";
+import { existProductById } from "helpers/productsTest";
+
 const router = Router()
 
 router.get('/', getAllProducts )
 
-router.get('/:idProduct', getByIdProduct )
+router.get('/:idProduct', [
+    check('idProduct').custom(existProductById),
+    validateAreas
+], getByIdProduct )
 
 router.post('/', createProduct )
 

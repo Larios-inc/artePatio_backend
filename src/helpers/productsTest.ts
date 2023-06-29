@@ -28,3 +28,15 @@ export const existCategory = async (categoryName: string) =>{
     if( categoryEx ) throw new Error(`Category ${categoryName} already in data base / UNABLE TO CREATE OR UPDATE`)
 
 }
+
+export const existProductById = async ( idProduct: string ) => {
+
+    const existidProduct = await product.findFirst({
+        where:{
+            idProduct: idProduct
+        }
+    })
+
+    if( !existidProduct ) throw new Error(`Product ${idProduct} does not exist`)
+
+}
