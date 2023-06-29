@@ -8,8 +8,9 @@ import { getAllProducts,
          getByIdProduct} from "../../../controller/db-controllers/product-controllers/products";
 
 
+import { activeProductTrue, existProductById } from "../../../helpers/productsTest";
+         
 import { validateAreas } from "../../../middlewares/roles/validate";
-import { existProductById } from "helpers/productsTest";
 
 const router = Router()
 
@@ -17,6 +18,7 @@ router.get('/', getAllProducts )
 
 router.get('/:idProduct', [
     check('idProduct').custom(existProductById),
+    check('idProduct').custom(activeProductTrue),
     validateAreas
 ], getByIdProduct )
 

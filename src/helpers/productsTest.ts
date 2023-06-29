@@ -40,3 +40,12 @@ export const existProductById = async ( idProduct: string ) => {
     if( !existidProduct ) throw new Error(`Product ${idProduct} does not exist`)
 
 }
+
+export const activeProductTrue =  async (idProduct: string) =>{
+
+    const getProduct = await product.findFirst({where:{idProduct:idProduct}})
+
+    if( getProduct.is_Active === false) {
+        throw new Error(`product ${getProduct.name_Product } not at inventory`)
+    }
+}

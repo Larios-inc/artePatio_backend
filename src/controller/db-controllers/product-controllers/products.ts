@@ -80,12 +80,6 @@ export const getByIdProduct = async( req:Request, res:Response, next:NextFunctio
             }
         })
 
-        if( getProduct.is_Active === false) {
-            return res.status(403).json({
-                msg:'product not at inventory'
-            })
-        }
-
         res.status(200).json({
             msg:'get one product',
             getProduct
