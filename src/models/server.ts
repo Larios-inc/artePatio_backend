@@ -2,7 +2,8 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 // db Routes 
-import {productRouter, categoryRouter, descriptionRouter, imgRouter} from '../routes'
+import {productRouter, categoryRouter, descriptionRouter,
+         imgRouter, typeStateRouter} from '../routes'
 
 class Server{
 
@@ -14,6 +15,7 @@ class Server{
         category:'/artepatio/categories',
         img:'/artepatio/descimg',
         description:'/artepatio/descriptions',
+        typeState:'/artepatio/statestype'
     }
 
     constructor(){
@@ -30,10 +32,13 @@ class Server{
     }
 
     routes(){
+        //products
         this.app.use( this.apiPaths.product, productRouter )
         this.app.use( this.apiPaths.category, categoryRouter)
         this.app.use( this.apiPaths.img, imgRouter )
         this.app.use( this.apiPaths.description, descriptionRouter)
+        // user
+        this.app.use( this.apiPaths.typeState, typeStateRouter)
     }
 
     listen(){
