@@ -8,7 +8,9 @@ import { getAllProducts,
          getByIdProduct} from "../../../controller/db-controllers/product-controllers/products";
 
 
-import { activeProductTrue, existProductById } from "../../../helpers/productsTest";
+import { NameProduct, 
+         activeProductTrue,
+         existProductById } from "../../../helpers/productsTest";
          
 import { validateAreas } from "../../../middlewares/roles/validate";
 
@@ -22,10 +24,25 @@ router.get('/:idProduct', [
     validateAreas
 ], getByIdProduct )
 
-router.post('/', createProduct )
+router.post('/',[
+    check('name_Product','Name is a must').not().isEmpty(),
+    check('name_Product','Name must have more than 3 characters').isLength({min:3}),
+    check('name_Product').custom(NameProduct),
+    check('price','Price is a must').not().isEmpty(),
+    check('price','Price must be a number').isNumeric(),
+    check('img_Main_Product','img mail is a must').not().isEmpty(),
+    validateAreas
+], createProduct )
 
-router.put('/:idProduct', UpdateProduct )
+router.put('/:idProduct',[
+    check('idProduct').custom(existProductById),
+    check('name_Product').custom(NameProduct),
+    validateAreas
+], UpdateProduct )
 
-router.delete('/:idProduct', DeleteProduct )
+router.delete('/:idProduct',[
+    check('idProduct').custom(existProductById),
+    validateAreas
+], DeleteProduct )
 
 export default router;

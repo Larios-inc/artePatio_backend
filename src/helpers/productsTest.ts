@@ -49,3 +49,13 @@ export const activeProductTrue =  async (idProduct: string) =>{
         throw new Error(`product ${getProduct.name_Product } not at inventory`)
     }
 }
+
+export const NameProduct = async (name_Product:string) =>{
+
+    const products = await product.findFirst({
+        where:{ name_Product:name_Product }
+    })
+
+    if( products ) throw new Error(`Product ${products.name_Product} already in DB / unable to create OR update`)
+
+}
