@@ -9,6 +9,15 @@ export interface DataAddress {
     ContactId     : string
 }
 
+export interface DataUser {
+    idUser    : string
+    username  : string
+    email     : string
+    password  : string
+    is_Active?: boolean
+    roleId    : string
+}
+
 // PRODUCTS  --------------------------
 
 // category 
@@ -26,15 +35,15 @@ export interface DataDescImg {
 export interface DataDescription {
     idDescription : string
     desc          : string
-    desc_1        : string
+    desc_1?       : string
     stock         : number
     productId     : string
 }
 // product 
 export interface DataProducts {
-    idProduct:    string
-    name_Product: string
-    price:        number
+    idProduct     :  string
+    name_Product  :  string
+    price         :  number
     img_Main_Product:string
-    categoryId:  string
+    categoryId    :  string
 }
