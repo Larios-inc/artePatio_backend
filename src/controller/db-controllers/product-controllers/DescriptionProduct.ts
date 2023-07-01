@@ -2,15 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-const { descriptionProduct } = new PrismaClient()
+import { DataDescription } from '../../../ts/interfaces/reqbody';
 
-interface DataDescription {
-    idDescription : string
-    desc : string
-    desc_1: string
-    stock : number
-    productId: string
-}
+const { descriptionProduct } = new PrismaClient()
 
 export const getAllDescription = async (req:Request, res:Response, next:NextFunction) => {
     

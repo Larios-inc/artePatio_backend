@@ -2,12 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-const { category } = new PrismaClient()
+import { DataCate } from '../../../ts/interfaces/reqbody';
 
-interface DataCate {
-    idCategory: string
-    categoryName: string
-}
+const { category } = new PrismaClient()
 
 export const getAllCategories = async (req:Request, res:Response, next:NextFunction) => {
     

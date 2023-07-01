@@ -2,15 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from 'uuid';
 
-const { product } = new PrismaClient()
+import { DataProducts } from "../../../ts/interfaces/reqbody";
 
-interface DataProducts {
-    idProduct:    string
-    name_Product: string
-    price:        number
-    img_Main_Product:string
-    categoryId:  string
-}
+const { product } = new PrismaClient()
 
 export const createProduct = async( req:Request, res:Response, next:NextFunction ) => {
 

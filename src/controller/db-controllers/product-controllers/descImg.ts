@@ -2,13 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-const { descImg } = new PrismaClient()
+import { DataDescImg } from '../../../ts/interfaces/reqbody';
 
-interface DataDescImg {
-    idDescImg: string
-    imgs: string
-    DescriptionProductID: string
-}
+const { descImg } = new PrismaClient()
 
 export const getAllDescImg = async (req: Request, res: Response, next:NextFunction) =>{
 

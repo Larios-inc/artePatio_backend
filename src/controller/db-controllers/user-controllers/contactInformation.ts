@@ -10,9 +10,9 @@ interface DataStateType {
     ContactId: string
 }
 
-export const createUser =async (req:Request, res: Response, next: NextFunction) => {}
-export const getByIdUser =async (req:Request, res: Response, next: NextFunction) => {}
-export const updateUser =async (req:Request, res: Response, next: NextFunction) => {}
-export const deleteUser =async (req:Request, res: Response, next: NextFunction) => {}
-export const getAllUsers =async (req:Request, res: Response, next: NextFunction) => {}
+export const createContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
+export const getByIdContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
+export const updateContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
+export const deleteContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
+export const getAllContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
   

@@ -133,13 +133,13 @@ model Address {
   address_line_2 String?
   address_line_3 String?
   city           String
-  type_state     typeState @relation(fields: [stateId], references: [idTypeState])
-  stateId        String
+  typeState     typeState @relation(fields: [type_state], references: [idTypeState])
+  type_state     String
   zip_code       Int
   contact_information ContactInformation @relation(fields: [ContactId], references: [idContact])
   ContactId String
 
-  @@id([idAddress, stateId])
+  @@id([idAddress, type_state])
 }
 
 model typeState {

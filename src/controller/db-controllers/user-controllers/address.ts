@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 const {  } = new PrismaClient()
 
-interface DataStateType {
-    idPhoneNumber: string
-    phone_number: string
+interface DataAddress {
+    idAddress: string
+    address_line_1: string
+    address_line_2: string
+    address_line_3: string
     ContactId: string
 }
 

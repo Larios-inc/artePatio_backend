@@ -3,7 +3,8 @@ import { check } from "express-validator";
 
 // controllers
 
-import { createUser, getAllUsers, getByIdUser } from "controller/db-controllers/user-controllers/contactInformation";
+import { createUser, deleteUser, getAllUsers, 
+         getByIdUser, updateUser } from "controller/db-controllers/user-controllers/user";
 
 const router = Router()
 
@@ -13,8 +14,8 @@ router.get('/:', getByIdUser)
 
 router.post('/', createUser )
 
-router.put('/:',  )
+router.put('/:', updateUser )
 
-router.delete('/:', )
+router.delete('/:', deleteUser)
 
 export default router;
