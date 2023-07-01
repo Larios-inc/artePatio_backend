@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DataCate } from '../../../ts/interfaces/reqbody';
+import { DataCate } from '../../../ts/interfaces/products.interfaces';
 
 const { category } = new PrismaClient()
 

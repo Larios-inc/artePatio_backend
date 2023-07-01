@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DataUser } from '../../../ts/interfaces/reqbody';
+import { DataUser } from '../../../ts/interfaces/user.interfaces';
 
 const {  } = new PrismaClient()
 

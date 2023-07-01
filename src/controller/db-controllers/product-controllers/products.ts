@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from 'uuid';
 
-import { DataProducts } from "../../../ts/interfaces/reqbody";
+import { DataProducts } from "../../../ts/interfaces/products.interfaces";
 
 const { product } = new PrismaClient()
 
