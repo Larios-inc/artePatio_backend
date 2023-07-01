@@ -2,13 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-const {  } = new PrismaClient()
+import { DataContactInfo } from '../../../ts/interfaces/reqbody';
 
-interface DataStateType {
-    idPhoneNumber: string
-    phone_number: string
-    ContactId: string
-}
+const {  } = new PrismaClient()
 
 export const createContactInfo = async (req:Request, res: Response, next: NextFunction) => {}
 export const getByIdContactInfo = async (req:Request, res: Response, next: NextFunction) => {}

@@ -17,6 +17,23 @@ export interface DataUser {
     is_Active?: boolean
     roleId    : string
 }
+export interface DataStateType {
+    idTypeState: string
+    type_state : string
+} 
+
+export interface DataContactInfo {
+    idContact   :string
+    name        :string
+    last_Name   :string
+    userId      :string
+}
+
+export interface DataPhone {
+    idPhoneNumber: string
+    phone_number : string
+    ContactId    : string
+}
 
 // PRODUCTS  --------------------------
 
