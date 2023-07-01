@@ -47,7 +47,6 @@ model DescriptionProduct{
 model descImg{
   idDescImg String @unique
   imgs      String?
-  // product   DescriptionProduct [] 
   DescriptionProduct DescriptionProduct @relation(fields: [DescriptionProductID], references: [idDescription])
   DescriptionProductID String
   @@id([idDescImg, DescriptionProductID])
@@ -57,7 +56,6 @@ model Category {
   idCategory   String @unique
   categoryName String @unique
   createAt     DateTime @default(now())
-  // product      Product @relation(fields: [productId], references: [idProduct])
   product     Product[]
 
   @@id([idCategory])
@@ -101,8 +99,7 @@ model User {
   is_Active          Boolean @default(true)
   role               Role @relation(fields: [roleId], references: [idRole])
   roleId             String
-  contactInformation ContactInformation? @relation(fields: [contactInfo_Id], references: [idContact])
-  contactInfo_Id     String?
+  contactInformation ContactInformation[]
   orders             Orders[]
   monthlySale        MonthlySale[]
   topSale            TopSale[]
@@ -114,21 +111,20 @@ model ContactInformation {
   idContact     String @unique
   name          String 
   last_Name     String?
-  address       Address @relation(fields: [addressId], references: [idAddress])
-  addressId     String
-  phoneNumber   PhoneNumber @relation(fields: [phoneNumberid], references: [idPhoneNumber])
-  phoneNumberid String
-  user          User[]
+  phoneNumber   PhoneNumber[]
+  address       Address[]
+  user User @relation(fields: [userId], references: [idUser])
+  userId     String
 
-  @@id([idContact, addressId, phoneNumberid])
+  @@id([idContact,userId])
 }
 
 model PhoneNumber {
   idPhoneNumber String @unique
   phone_number  Int @unique
-  contact_information ContactInformation[]
-
-  @@id([idPhoneNumber])
+  contact_information ContactInformation @relation(fields: [ContactId], references: [idContact])
+  ContactId     String
+  @@id([idPhoneNumber, ContactId])
 }
 
 model Address {
@@ -140,7 +136,8 @@ model Address {
   type_state     typeState @relation(fields: [stateId], references: [idTypeState])
   stateId        String
   zip_code       Int
-  contact_information ContactInformation[]
+  contact_information ContactInformation @relation(fields: [ContactId], references: [idContact])
+  ContactId String
 
   @@id([idAddress, stateId])
 }
