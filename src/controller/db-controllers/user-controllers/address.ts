@@ -13,6 +13,6 @@ interface DataStateType {
 export const createAddress =async (req:Request, res: Response, next: NextFunction) => {}
 export const getByIdAddress =async (req:Request, res: Response, next: NextFunction) => {}
 export const updateAddress =async (req:Request, res: Response, next: NextFunction) => {}
-export const deleteAddress =async (req:Request, res: Response, next: NextFunction) => {}
+export const deleteAddress =async (raeq:Request, res: Response, next: NextFunction) => {}
 export const getAllAddresses =async (req:Request, res: Response, next: NextFunction) => {}
   
