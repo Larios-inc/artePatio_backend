@@ -95,8 +95,6 @@ export const DeleteTypeState =async (req:Request, res: Response, next: NextFunct
 
 export const getAllTypeStates =async (req:Request, res: Response, next: NextFunction) => {
     
-    const {idTypeState} = req.params
-    
     try {
         
         const allTypeStates = await typeState.findMany()

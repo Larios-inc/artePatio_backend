@@ -59,26 +59,49 @@ export const getByIdPermissions = async (req:Request, res: Response, next: NextF
 export const updatePermissions = async (req:Request, res: Response, next: NextFunction) => {
 
     const {idPermissions} = req.params
+    const { permission }:DataPermissions = req.body
 
     try {
         
+        const permissUpdate = await permissions.update({
+            where:{ idPermissions },
+            data:{ permission }
+        })
+
+        return res.status(202).json({
+            msg:`updated ${permissUpdate.permission}`,
+            permissUpdate
+        })
+
     } catch (error) {
         next(error)
     }
 }
 
 export const deletePermissions = async (req:Request, res: Response, next: NextFunction) => {
+    
     const {idPermissions} = req.params
 
     try {
         
+        const permissDelete = await permissions.delete({ where : {idPermissions}})
+
+        return res.status(204).json(permissDelete)
+
     } catch (error) {
         next(error)
     }
 }
 export const getAllPermissions = async (req:Request, res: Response, next: NextFunction) => {
     
-    res.json({msg:'done'})
+    try {
+        
+        const allPermiss = await permissions.findMany()
+
+        return res.status(200).json(allPermiss)
+
+    } catch (error) {
+        next(error)
+    }
 
 }
-  

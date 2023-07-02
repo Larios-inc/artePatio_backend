@@ -9,11 +9,16 @@ import { createPermissions, deletePermissions,
 // middlewares
 import { validateAreas } from "../../../middlewares/roles/validate";
 
+import { permissionIdExist } from "../../../helpers/usersTests";
+
 const router = Router()
 
 router.get('/', getAllPermissions)
 
-router.get('/:idPermissions', getByIdPermissions)
+router.get('/:idPermissions',[
+    check('idPermissions').custom(permissionIdExist),
+    validateAreas
+], getByIdPermissions)
 
 router.post('/',[
     check('permission','permission is a must').not().isEmpty(),
@@ -21,8 +26,14 @@ router.post('/',[
     validateAreas
 ], createPermissions )
 
-router.put('/:idPermissions', updatePermissions )
+router.put('/:idPermissions', [
+    check('idPermissions').custom(permissionIdExist),
+    validateAreas
+], updatePermissions)
 
-router.delete('/:idPermissions', deletePermissions)
+router.delete('/:idPermissions',  [
+    check('idPermissions').custom(permissionIdExist),
+    validateAreas
+],deletePermissions)
 
 export default router;
