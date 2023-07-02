@@ -3,19 +3,23 @@ import { check } from "express-validator";
 
 // controllers
 
-import { createUser, deleteUser, getAllUsers, 
-         getByIdUser, updateUser } from "controller/db-controllers/user-controllers/user";
+// middlewares
+import { validateAreas } from "middlewares/roles/validate";
 
 const router = Router()
 
-router.get('/', getAllUsers)
+router.get('/', )
 
-router.get('/:', getByIdUser)
+router.get('/:', )
 
-router.post('/', createUser )
+router.post('/',[
+    check('permission','permission is a must').not().isEmpty(),
+    check('permission','must be than 3 characters').isLength({min:3}),
+    validateAreas
+],  )
 
-router.put('/:', updateUser )
+router.put('/:',  )
 
-router.delete('/:', deleteUser)
+router.delete('/:', )
 
 export default router;
