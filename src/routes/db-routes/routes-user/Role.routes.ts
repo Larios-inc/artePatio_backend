@@ -7,7 +7,9 @@ import { createRole, deleteRole,
          updateRole } from "../../../controller/db-controllers/user-controllers/Role";
 
 // helpers         
-import { roleIdExist, testRoleIfExist } from "../../../helpers/usersTests";
+import { permissionIdExist, 
+        roleIdExist, 
+        testRoleIfExist } from "../../../helpers/usersTests";
 
 // middlewares
 import { validateAreas } from "../../../middlewares/roles/validate";
@@ -22,13 +24,21 @@ router.get('/:idRole', [
 ], getByIdRole)
 
 router.post('/', [
+    check('role_Name','Role Name is a must').not().isEmpty(),
+    check('role_Name','Must be more than 3 characters').isLength({min:4}),
     check('role_Name').custom(testRoleIfExist),
+    check('permissionsId','Permission is a must select it ASAP').not().isEmpty(),
+    check('permissionsId').custom(permissionIdExist),
     validateAreas
 ], createRole)
 
 router.put('/:idRole', [
+    check('role_Name','Role Name is a must').not().isEmpty(),
+    check('role_Name','Must be more than 3 characters').isLength({min:4}),
     check('idRole').custom( roleIdExist),
     check('role_Name').custom(testRoleIfExist),
+    check('permissionsId','Permission is a must select it ASAP').not().isEmpty(),
+    check('permissionsId').custom(permissionIdExist),
     validateAreas
 ],updateRole )
 

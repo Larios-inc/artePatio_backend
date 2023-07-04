@@ -27,6 +27,8 @@ router.post('/',[
 ], createPermissions )
 
 router.put('/:idPermissions', [
+    check('permission','permission is a must').not().isEmpty(),
+    check('permission','must be than 3 characters').isLength({min:3}),
     check('idPermissions').custom(permissionIdExist),
     validateAreas
 ], updatePermissions)
