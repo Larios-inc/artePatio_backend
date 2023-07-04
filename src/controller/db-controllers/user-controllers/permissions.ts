@@ -46,7 +46,7 @@ export const getByIdPermissions = async (req:Request, res: Response, next: NextF
         })
 
         return res.status(200).json({
-            msg:'updated permission',
+            msg:'permission found',
             getOnePermission
         })
         
