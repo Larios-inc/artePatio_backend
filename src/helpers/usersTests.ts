@@ -24,6 +24,14 @@ export const roleIdExist = async (idRole:string) =>{
 
 }
 
+export const roleNameValid = async (idRole:string) =>{
+
+    const idRoleExist = await role.findUnique({ where: { role_Name: idRole }})
+
+    if(!idRoleExist) throw new Error(`role ${idRole} does nost exist`)
+
+}
+
 export const testRoleIfExist =async (role_Name:string) => {
     
     const Roles = await role.findFirst({where:{ role_Name}})

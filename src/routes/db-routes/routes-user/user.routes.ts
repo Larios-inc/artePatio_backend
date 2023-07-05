@@ -12,14 +12,20 @@ import { createUser,
 import { idUserValid, 
          mailExist, 
          roleIdExist, 
+         roleNameValid, 
          testUserNameExist } from "../../../helpers/usersTests";
 
 // middlewares
-import { validateAreas } from "../../../middlewares/roles/validate";
+import { validateAreas, 
+         tieneRole, 
+         validJWT } from "../../../middlewares";
 
 const router = Router()
 
-router.get('/', getAllUsers)
+router.get('/',[
+    validJWT,
+    validateAreas
+], getAllUsers)
 
 router.get('/:idUser',[
     check('idUser').custom( idUserValid ),
@@ -36,11 +42,13 @@ router.post('/',[
     check('password').trim().notEmpty().isString().withMessage('enter a valid password'),
     check('password','pass must be strong').isStrongPassword(),
     check('roleId','ID is a must').not().isEmpty(),
-    check('roleId').custom( roleIdExist ),
+    check('roleId').custom( roleNameValid ),
     validateAreas
 ], createUser )
 
 router.put('/:idUser', [
+    validJWT,
+    tieneRole('USER','ADMIN','SUPER_ADMIN'),
     check('idUser').custom( idUserValid ),
     check('username').notEmpty().withMessage('user name is a must'),
     check('username').isLength({min:3}).withMessage('user name must be more than 2 characters'),
@@ -51,10 +59,16 @@ router.put('/:idUser', [
     check('password').trim().notEmpty().isString().withMessage('enter a valid password'),
     check('password','pass must be strong').isStrongPassword(),
     check('roleId','ID is a must').not().isEmpty(),
-    check('roleId').custom( roleIdExist ),
+    check('roleId').custom( roleNameValid ),
     validateAreas
 ],updateUser )
 
-router.delete('/:idUser', deleteUser)
+router.delete('/:idUser', [
+    validJWT,
+    tieneRole('USER','ADMIN','SUPER_ADMIN'),
+    check('idUser','Missing ID').notEmpty(),
+    check('idUser').custom( idUserValid ),
+    validateAreas
+], deleteUser)
 
 export default router;

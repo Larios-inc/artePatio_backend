@@ -48,6 +48,8 @@ export const getByIdUser =async (req: typeof request, res: Response, next: NextF
 
     try {
         
+        const userAuth = req.user
+
         const getOneUser = await user.findUnique({
             where:{idUser},
             include:{
@@ -55,7 +57,23 @@ export const getByIdUser =async (req: typeof request, res: Response, next: NextF
             }
         })
 
-        return res.status(200).json(getOneUser)
+        if(userAuth.idUser !== getOneUser.idUser ){
+
+            return res.status(401).json({
+                msg:'token does not belong from same token id'
+            })
+        }else{
+            if( getOneUser.is_Active === true ){
+                return res.status(200).json({
+                    getOneUser,
+                    userAuth
+                })
+            }else{
+                res.status(400).json({
+                    msg:'user not found in DB'
+                })
+            }
+        }
         
     } catch (error) {
         next(error)
