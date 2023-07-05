@@ -46,6 +46,21 @@ export const getByIdUser =async (req:Request, res: Response, next: NextFunction)
 
     const { idUser } = req.params
 
+    try {
+        
+        const getOneUser = await user.findUnique({
+            where:{idUser},
+            include:{
+                role:true
+            }
+        })
+
+        return res.status(200).json(getOneUser)
+        
+    } catch (error) {
+        next(error)
+    }
+
 }
 export const updateUser =async (req:Request, res: Response, next: NextFunction) => {
 
