@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
+const {request} = require('express')
 import { v4 as uuidv4 } from 'uuid';
 import bcryptjs from 'bcryptjs'
 
@@ -33,7 +34,6 @@ export const createUser =async (req:Request, res: Response, next: NextFunction) 
         })
 
         return res.status(201).json({
-            msg:'USER CREATED',
             postUser
         })
         
@@ -42,7 +42,7 @@ export const createUser =async (req:Request, res: Response, next: NextFunction) 
     }
 
 }
-export const getByIdUser =async (req:Request, res: Response, next: NextFunction) => {
+export const getByIdUser =async (req: typeof request, res: Response, next: NextFunction) => {
 
     const { idUser } = req.params
 

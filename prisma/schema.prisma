@@ -95,7 +95,7 @@ model User {
   password           String
   created_At         DateTime @default(now())
   is_Active          Boolean @default(true)
-  role               Role @relation(fields: [roleId], references: [idRole])
+  role               Role @relation(fields: [roleId], references: [role_Name])
   roleId             String
   contactInformation ContactInformation[]
   orders             Orders[]
