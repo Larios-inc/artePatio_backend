@@ -7,7 +7,9 @@ import descriptionRouter from './db-routes/routes-products/description.routes'
 import typeStateRouter from './db-routes/routes-user/typeState.routes'
 import perrmissRouter from './db-routes/routes-user/permissions.routes'
 import roleRouter from './db-routes/routes-user/Role.routes'
+import userRouter from './db-routes/routes-user/user.routes'
 
-export {productRouter, categoryRouter, imgRouter, 
-        typeStateRouter, descriptionRouter, perrmissRouter,
-        roleRouter }
+export {productRouter, categoryRouter, 
+        imgRouter, typeStateRouter, 
+        descriptionRouter, perrmissRouter,
+        roleRouter, userRouter }

@@ -3,7 +3,8 @@ import cors from 'cors';
 
 // db Routes 
 import {productRouter, categoryRouter, descriptionRouter,
-         imgRouter, typeStateRouter, perrmissRouter, roleRouter} from '../routes'
+         imgRouter, typeStateRouter, perrmissRouter, 
+         roleRouter, userRouter} from '../routes'
 
 class Server{
 
@@ -18,6 +19,7 @@ class Server{
         typeState:'/artepatio/statestype',
         permiss:'/artepatio/permissions',
         role:'/artepatio/roles',
+        user:'/artepatio/users',
     }
 
     constructor(){
@@ -43,6 +45,7 @@ class Server{
         this.app.use( this.apiPaths.typeState, typeStateRouter)
         this.app.use( this.apiPaths.permiss, perrmissRouter )
         this.app.use( this.apiPaths.role, roleRouter)
+        this.app.use( this.apiPaths.user, userRouter)
     }
 
     listen(){
