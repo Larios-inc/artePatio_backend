@@ -73,6 +73,21 @@ export const deleteUser =async (req:Request, res: Response, next: NextFunction) 
 
     const { idUser } = req.params
 
+    try {
+        
+        const userDelete = await user.update({
+            where:{idUser},
+            data:{
+                is_Active:false
+            }
+        })
+
+        return res.json(userDelete)
+
+    } catch (error) {
+        next(error)
+    }
+
 }
 
 export const getAllUsers = async (req:Request, res: Response, next: NextFunction) => {

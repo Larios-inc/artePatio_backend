@@ -17,6 +17,7 @@ export interface DataUser {
     is_Active?: boolean
     roleId    : string
 }
+
 export interface DataStateType {
     idTypeState: string
     type_state : string

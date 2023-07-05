@@ -9,7 +9,10 @@ import perrmissRouter from './db-routes/routes-user/permissions.routes'
 import roleRouter from './db-routes/routes-user/Role.routes'
 import userRouter from './db-routes/routes-user/user.routes'
 
+// JWT 
+import authUserRouter from './jwt-routes/auth.routes'
+
 export {productRouter, categoryRouter, 
         imgRouter, typeStateRouter, 
         descriptionRouter, perrmissRouter,
-        roleRouter, userRouter }
+        roleRouter, userRouter, authUserRouter }
