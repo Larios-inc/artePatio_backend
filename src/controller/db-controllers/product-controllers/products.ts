@@ -37,16 +37,21 @@ export const createProduct = async( req:Request, res:Response, next:NextFunction
 }
 export const getAllProducts = async( req:Request, res:Response, next:NextFunction ) => {
 
+    const { limit, since } = req.query
+
     try {
     
         const allProducts = await product.findMany({
             where:{
                 is_Active: true
-            }
+            },
+            take: limit ? Number(limit): undefined,
+            skip: since ? Number(since): undefined
         })
 
         return res.status(200).json({
             msg:'all products',
+            query: req.query,
             allProducts
         })
         
