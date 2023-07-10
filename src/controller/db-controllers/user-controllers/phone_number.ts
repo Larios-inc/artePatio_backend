@@ -1,18 +1,21 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DataPhone } from '../../../ts/interfaces/user.interfaces';
+import prismadb from '../../../models/prismadb';
 
-const { phoneNumber } = new PrismaClient()
 
-export const createPhoneNumber =async (req:Request, res: Response, next: NextFunction) => {
+export const createPhoneNumber =async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
-    const { ContactId, phone_number }:DataPhone = req.body 
+    const { ContactId, phone_number}:DataPhone = req.body 
 
     try {
         
-        const id = uuidv4()
+        const id:string = uuidv4()
 
         const phoneCreate: DataPhone = {
             idPhoneNumber: id,
@@ -20,13 +23,21 @@ export const createPhoneNumber =async (req:Request, res: Response, next: NextFun
             phone_number
         }
 
+        await prismadb.phoneNumber.create({
+            data: phoneCreate
+        })
+
     } catch (error) {
         next(error)
     }
 
 }
 
-export const getByIdPhoneNumber =async (req:Request, res: Response, next: NextFunction) => {
+export const getByIdPhoneNumber =async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const { idPhoneNumber } = req.params
 
@@ -38,7 +49,11 @@ export const getByIdPhoneNumber =async (req:Request, res: Response, next: NextFu
 }
 
 
-export const updatePhoneNumber =async (req:Request, res: Response, next: NextFunction) => {
+export const updatePhoneNumber = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const { ContactId, phone_number }:DataPhone = req.body
     const { idPhoneNumber } = req.params 
@@ -50,7 +65,11 @@ export const updatePhoneNumber =async (req:Request, res: Response, next: NextFun
     }   
 
 }
-export const deletePhoneNumber =async (req:Request, res: Response, next: NextFunction) => {
+export const deletePhoneNumber = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const { idPhoneNumber } = req.params
 
@@ -61,7 +80,11 @@ export const deletePhoneNumber =async (req:Request, res: Response, next: NextFun
     }
 
 }
-export const getAllPhoneNumber =async (req:Request, res: Response, next: NextFunction) => {
+export const getAllPhoneNumber = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
     try {
         
     } catch (error) {
