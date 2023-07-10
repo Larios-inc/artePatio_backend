@@ -118,7 +118,7 @@ model ContactInformation {
 }
 
 model PhoneNumber {
-  idPhoneNumber String @unique
+  idPhoneNumber String @unique @default(uuid())
   phone_number  Int @unique
   contact_information ContactInformation @relation(fields: [ContactId], references: [idContact])
   ContactId     String
@@ -148,20 +148,23 @@ model typeState {
 }
 
 model Role{
-  idRole      String @unique
-  role_Name   String @unique
-  create_At   DateTime @default(now())
-  user        User[]
-  permissions permissions @relation(fields: [permissionsId], references: [idPermissions])
+  idRole        String @unique
+  role_Name     String @unique
+  create_At     DateTime @default(now())
+  user          User[]
+  permissions   permissions @relation(fields: [permissionsId], references: [idPermissions])
   permissionsId String
 
   @@id([idRole, permissionsId])
 }
 
 model permissions{
-  idPermissions   String @unique
-  permission      String @unique
-  role            Role[]
+  idPermissions         String @unique
+  permission            String
+  descriptionPermission String
+  create_At             DateTime @default(now())
+  update_At             DateTime @updatedAt
+  role                  Role[]
 
   @@id([idPermissions])
 }
