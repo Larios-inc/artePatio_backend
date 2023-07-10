@@ -23,6 +23,7 @@ router.get('/:idPermissions',[
 router.post('/',[
     check('permission','permission is a must').not().isEmpty(),
     check('permission','must be than 3 characters').isLength({min:3}),
+    check('descriptionPermission','description is requier').notEmpty().isLength({min:4}),
     validateAreas
 ], createPermissions )
 
