@@ -1,25 +1,28 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DataPermissions } from '../../../ts/interfaces/user.interfaces';
+import prismadb from '../../../models/prismadb';
 
-const { permissions } = new PrismaClient()
+export const createPermissions = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
-export const createPermissions = async (req:Request, res: Response, next: NextFunction) => {
-
-    const { permission }:DataPermissions = req.body
+    const { permission, descriptionPermission }:DataPermissions = req.body
 
     try {
 
         const id:string = uuidv4()
 
-        const permissionCreate = {
+        const permissionCreate:DataPermissions = {
             idPermissions:id,
-            permission
+            permission,
+            descriptionPermission
         }
         
-        await permissions.create({
+        await prismadb.permissions.create({
             data:permissionCreate
         })
 
@@ -34,13 +37,17 @@ export const createPermissions = async (req:Request, res: Response, next: NextFu
 
 }
 
-export const getByIdPermissions = async (req:Request, res: Response, next: NextFunction) => {
+export const getByIdPermissions = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const {idPermissions} = req.params
 
     try {
 
-        const getOnePermission = await permissions.findFirst({
+        const getOnePermission = await prismadb.permissions.findFirst({
             where: { idPermissions },
             include:{ role: true }
         })
@@ -56,16 +63,23 @@ export const getByIdPermissions = async (req:Request, res: Response, next: NextF
 
 }
 
-export const updatePermissions = async (req:Request, res: Response, next: NextFunction) => {
+export const updatePermissions = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const {idPermissions} = req.params
-    const { permission }:DataPermissions = req.body
+    const { permission, descriptionPermission }:DataPermissions = req.body
 
     try {
         
-        const permissUpdate = await permissions.update({
+        const permissUpdate = await prismadb.permissions.update({
             where:{ idPermissions },
-            data:{ permission }
+            data:{ 
+                permission,
+                descriptionPermission
+            }
         })
 
         return res.status(202).json({
@@ -78,13 +92,17 @@ export const updatePermissions = async (req:Request, res: Response, next: NextFu
     }
 }
 
-export const deletePermissions = async (req:Request, res: Response, next: NextFunction) => {
+export const deletePermissions = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
     
     const {idPermissions} = req.params
 
     try {
         
-        const permissDelete = await permissions.delete({ where : {idPermissions}})
+        const permissDelete = await prismadb.permissions.delete({ where : {idPermissions}})
 
         return res.status(204).json(permissDelete)
 
@@ -92,11 +110,16 @@ export const deletePermissions = async (req:Request, res: Response, next: NextFu
         next(error)
     }
 }
-export const getAllPermissions = async (req:Request, res: Response, next: NextFunction) => {
+
+export const getAllPermissions = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
     
     try {
         
-        const allPermiss = await permissions.findMany()
+        const allPermiss = await prismadb.permissions.findMany()
 
         return res.status(200).json(allPermiss)
 
