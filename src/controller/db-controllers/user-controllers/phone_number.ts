@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { v4 as uuidv4 } from 'uuid';
 
 import { DataPhone } from '../../../ts/interfaces/user.interfaces';
 import prismadb from '../../../models/prismadb';
@@ -14,11 +13,8 @@ export const createPhoneNumber =async (
     const { ContactId, phone_number}:DataPhone = req.body 
 
     try {
-        
-        const id:string = uuidv4()
 
-        const phoneCreate: DataPhone = {
-            idPhoneNumber: id,
+        const phoneCreate = {
             ContactId,
             phone_number
         }
