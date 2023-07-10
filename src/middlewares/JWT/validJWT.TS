@@ -1,12 +1,16 @@
 import { PrismaClient } from '@prisma/client';
-// import { request, response } from 'express';
-const {request, response} = require('express')
+// import { request, response, NextFunction } from 'express';
+const {request, response, NextFunction} = require('express')
 const jwt = require('jsonwebtoken')
 
 
 const { user } = new PrismaClient()
 
-export const validJWT = async (req:typeof request, res: typeof response, next: Function) => {
+export const validJWT = async (
+    req:typeof request, 
+    res: typeof response, 
+    next: typeof NextFunction
+) => {
 
     const token = req.header('x-token');
 

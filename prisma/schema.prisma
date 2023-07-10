@@ -89,7 +89,7 @@ model OrderItems {
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR USERS ----------------
 
 model User {
-  idUser             String @unique
+  idUser             String @unique @default(uuid())
   username           String @unique
   email              String @unique
   password           String

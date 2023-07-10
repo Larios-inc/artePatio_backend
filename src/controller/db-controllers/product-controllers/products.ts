@@ -123,7 +123,7 @@ export const UpdateProduct = async( req:Request, res:Response, next:NextFunction
 
 export const DeleteProduct = async( req:Request, res:Response, next:NextFunction ) => {
 
-    const {idProduct } = req.params
+    const { idProduct } = req.params
 
     try {
 

@@ -1,16 +1,26 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-const {request} = require('express')
+const { request } = require('express')
 import { v4 as uuidv4 } from 'uuid';
 import bcryptjs from 'bcryptjs'
 
 import { DataUser } from '../../../ts/interfaces/user.interfaces';
+// import { idUserValid } from '../../../helpers/usersTests';
 
 const { user } = new PrismaClient()
 
-export const createUser =async (req:Request, res: Response, next: NextFunction) => {
+//hashing pass
+const salt = bcryptjs.genSaltSync()
 
-    const { username, email, password, roleId }:DataUser = req.body
+export const createUser = async (
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
+
+    const { username, email, password }:DataUser = req.body
+
+    const role:[string] = ["USER"]
 
     try {
 
@@ -21,12 +31,10 @@ export const createUser =async (req:Request, res: Response, next: NextFunction) 
             username,
             email,
             password,
-            roleId
+            roleId: role[0]
         }
 
-        //hashing pass
-        const salt = bcryptjs.genSaltSync()
-
+        // setting the has to encript the password
         postUser.password = bcryptjs.hashSync(password, salt)
 
         await user.create({
@@ -42,7 +50,12 @@ export const createUser =async (req:Request, res: Response, next: NextFunction) 
     }
 
 }
-export const getByIdUser =async (req: typeof request, res: Response, next: NextFunction) => {
+
+export const getByIdUser =async (
+    req: typeof request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const { idUser } = req.params
 
@@ -80,27 +93,47 @@ export const getByIdUser =async (req: typeof request, res: Response, next: NextF
     }
 
 }
-export const updateUser =async (req:Request, res: Response, next: NextFunction) => {
+
+export const updateUser =async (
+    req: typeof request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     const { idUser } = req.params
-    const { username, email, password, roleId }:DataUser = req.body
-
-}
-
-export const deleteUser =async (req:Request, res: Response, next: NextFunction) => {
-
-    const { idUser } = req.params
+    const { password, roleId, ...rest}:DataUser = req.body
+    const userToken = req.user
 
     try {
         
-        const userDelete = await user.update({
-            where:{idUser},
+        const userUpdate = {
+            password,
+            roleId,
+            ...rest
+        }
+
+        userUpdate.password = bcryptjs.hashSync(password, salt)
+
+        await user.update({
+            where:{
+                idUser
+            },
             data:{
-                is_Active:false
+                password: userUpdate.password,
+                roleId:userUpdate.roleId,
+                ...rest
             }
         })
 
-        return res.json(userDelete)
+        if( userToken.idUser !== idUser ){
+            return res.status(401).json({
+                msg:'incorrect token - login first to update user'
+            })
+        }
+
+        return res.status(200).json({
+            userUpdate
+        })
 
     } catch (error) {
         next(error)
@@ -108,11 +141,52 @@ export const deleteUser =async (req:Request, res: Response, next: NextFunction) 
 
 }
 
-export const getAllUsers = async (req:Request, res: Response, next: NextFunction) => {
+export const deleteUser = async (
+    req: typeof request, 
+    res: Response, 
+    next: NextFunction
+) => {
+
+    const { idUser } = req.params
+    const authUser = req.user
+
+    try {
+
+        if( authUser.idUser !== idUser){
+
+            return res.status(401).json({msg:`unable to delete`})
+
+        }else{
+            
+            const userDelete = await user.update({
+                where:{idUser},
+                data:{
+                    is_Active:false
+                }
+            })
+    
+            return res.status(204).json(userDelete)    
+        }
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+export const getAllUsers = async ( 
+    req:Request, 
+    res: Response, 
+    next: NextFunction
+) => {
 
     try {
         
-        const allUsers = await user.findMany()
+        const allUsers = await user.findMany({
+            where:{
+                is_Active:true
+            }
+        })
 
         return res.status(200).json({
             msg:'all users',
