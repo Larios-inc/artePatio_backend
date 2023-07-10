@@ -1,26 +1,28 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DataRole } from '../../../ts/interfaces/user.interfaces';
+import prismadb from '../../../models/prismadb';
 
-const { role } = new PrismaClient();
-
-export const createRole = async (req:Request, res: Response, next: NextFunction) => {
+export const createRole = async (
+    req:  Request,
+    res:  Response, 
+    next: NextFunction
+) => {
 
     const {role_Name, permissionsId}:DataRole = req.body
 
     try {
         
         const id:string = uuidv4()
-
+        
         const roleCreate:DataRole = {
             idRole: id,
             role_Name,
             permissionsId
         }
 
-        await role.create({
+        await prismadb.role.create({
             data: roleCreate
         })
 
@@ -34,13 +36,17 @@ export const createRole = async (req:Request, res: Response, next: NextFunction)
     }
 
 }
-export const getByIdRole = async (req:Request, res: Response, next: NextFunction) => {
+export const getByIdRole = async (
+    req:  Request, 
+    res:  Response, 
+    next: NextFunction
+) => {
 
     const { idRole } = req.params
 
     try {
     
-        const getOneRole = await role.findUnique({
+        const getOneRole = await prismadb.role.findUnique({
             where:{ idRole},
             include:{ user: true }
         })
@@ -56,7 +62,11 @@ export const getByIdRole = async (req:Request, res: Response, next: NextFunction
 
 }
 
-export const updateRole = async (req:Request, res: Response, next: NextFunction) => {
+export const updateRole = async (
+    req:  Request, 
+    res:  Response, 
+    next: NextFunction
+) => {
     
     const { idRole } = req.params
     const {role_Name, permissionsId }:DataRole = req.body
@@ -68,7 +78,7 @@ export const updateRole = async (req:Request, res: Response, next: NextFunction)
             permissionsId
         }
 
-        await role.update({
+        await prismadb.role.update({
             where:{idRole},
             data:updateInfo
         })
@@ -84,13 +94,17 @@ export const updateRole = async (req:Request, res: Response, next: NextFunction)
 
 }
 
-export const deleteRole = async (req:Request, res: Response, next: NextFunction) => {
+export const deleteRole = async (
+    req:  Request, 
+    res:  Response, 
+    next: NextFunction
+) => {
 
     const { idRole } = req.params
 
     try {
         
-        const roleRemove = await role.delete({where:{idRole}})
+        const roleRemove = await prismadb.role.delete({where:{idRole}})
 
         return res.status(204).json(roleRemove)
 
@@ -100,11 +114,15 @@ export const deleteRole = async (req:Request, res: Response, next: NextFunction)
 
 }
 
-export const getAllRole = async (req:Request, res: Response, next: NextFunction) => {
+export const getAllRole = async (
+    req:  Request, 
+    res:  Response, 
+    next: NextFunction
+) => {
 
     try {
         
-        const allRoles = await role.findMany()
+        const allRoles = await prismadb.role.findMany()
 
         return res.status(200).json(allRoles)
 
