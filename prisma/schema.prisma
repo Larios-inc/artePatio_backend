@@ -89,7 +89,7 @@ model OrderItems {
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR USERS ----------------
 
 model User {
-  idUser             String @unique @default(uuid())
+  idUser             String @unique
   username           String @unique
   email              String @unique
   password           String
@@ -106,7 +106,7 @@ model User {
 }
 
 model ContactInformation {
-  idContact     String @unique
+  idContact     String @unique @default(uuid())
   name          String 
   last_Name     String?
   phoneNumber   PhoneNumber[]
@@ -126,7 +126,7 @@ model PhoneNumber {
 }
 
 model Address {
-  idAddress      String @unique
+  idAddress      String @unique @default(uuid())
   address_line_1 String
   address_line_2 String?
   address_line_3 String?
