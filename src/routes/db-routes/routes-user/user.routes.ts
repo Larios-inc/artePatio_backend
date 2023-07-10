@@ -10,8 +10,7 @@ import { createUser,
 
 // helpers
 import { idUserValid, 
-         mailExist, 
-         roleIdExist, 
+         mailExist,
          roleNameValid, 
          testUserNameExist } from "../../../helpers/usersTests";
 
