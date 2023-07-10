@@ -32,13 +32,14 @@ export interface DataContactInfo {
 
 export interface DataPhone {
     idPhoneNumber: string
-    phone_number : string
+    phone_number : number
     ContactId    : string
 }
 
 export interface DataPermissions {
-    idPermissions : string
-    permission    : string
+    idPermissions         : string
+    permission            : string
+    descriptionPermission : string
 }
 
 export interface DataRole {
