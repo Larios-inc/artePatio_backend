@@ -1,26 +1,22 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 const { request } = require('express')
 import { v4 as uuidv4 } from 'uuid';
 import bcryptjs from 'bcryptjs'
 
 import { DataUser } from '../../../ts/interfaces/user.interfaces';
-// import { idUserValid } from '../../../helpers/usersTests';
-
-const { user } = new PrismaClient()
+import prismadb from '../../../models/prismadb';
 
 //hashing pass
 const salt = bcryptjs.genSaltSync()
 
 export const createUser = async (
-    req:Request, 
+    req: Request, 
     res: Response, 
-    next: NextFunction
+    next:NextFunction
 ) => {
 
-    const { username, email, password }:DataUser = req.body
+    const { username, email, password, roleId }:DataUser = req.body
 
-    const role:[string] = ["USER"]
 
     try {
 
@@ -31,13 +27,13 @@ export const createUser = async (
             username,
             email,
             password,
-            roleId: role[0]
+            roleId
         }
-
+        
         // setting the has to encript the password
         postUser.password = bcryptjs.hashSync(password, salt)
 
-        await user.create({
+        await prismadb.user.create({
             data: postUser
         })
 
@@ -63,7 +59,7 @@ export const getByIdUser =async (
         
         const userAuth = req.user
 
-        const getOneUser = await user.findUnique({
+        const getOneUser = await prismadb.user.findUnique({
             where:{idUser},
             include:{
                 role:true
@@ -114,7 +110,7 @@ export const updateUser =async (
 
         userUpdate.password = bcryptjs.hashSync(password, salt)
 
-        await user.update({
+        await prismadb.user.update({
             where:{
                 idUser
             },
@@ -157,8 +153,8 @@ export const deleteUser = async (
             return res.status(401).json({msg:`unable to delete`})
 
         }else{
-            
-            const userDelete = await user.update({
+
+            const userDelete = await prismadb.user.update({
                 where:{idUser},
                 data:{
                     is_Active:false
@@ -182,7 +178,7 @@ export const getAllUsers = async (
 
     try {
         
-        const allUsers = await user.findMany({
+        const allUsers = await prismadb.user.findMany({
             where:{
                 is_Active:true
             }
