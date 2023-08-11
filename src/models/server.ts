@@ -38,6 +38,9 @@ class Server{
     middlewares(){
         this.app.use( cors() )
         this.app.use( express.json() )
+        
+        //public directory
+        this.app.use(express.static('public'))
     }
 
     routes(){

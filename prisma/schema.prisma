@@ -20,13 +20,14 @@ model Product {
   created_At       DateTime @default(now())
   is_Active        Boolean @default(true)
   img_Main_Product String?
-  description      DescriptionProduct[]
   category         Category @relation(fields: [categoryId], references: [idCategory])
   categoryId       String
+  description      DescriptionProduct[] @relation("ProductToDescription")
   orderItems       OrderItems[]
   monthlySale      MonthlySale[]
   topSale          TopSale[]
 
+  @@index([categoryId])
   @@id([idProduct])
 }
 
@@ -36,7 +37,7 @@ model DescriptionProduct{
   desc_1          String?
   stock           Int @default(0)
   descImg         descImg[]
-  product         Product @relation(fields: [productId], references: [idProduct])
+  product         Product @relation("ProductToDescription",fields: [productId], references: [idProduct])
   productId       String
 
   @@id([idDescription, productId])
@@ -122,7 +123,9 @@ model PhoneNumber {
   phone_number  Int @unique
   contact_information ContactInformation @relation(fields: [ContactId], references: [idContact])
   ContactId     String
-  @@id([idPhoneNumber, ContactId])
+
+  @@index([ContactId])
+  @@id([idPhoneNumber])
 }
 
 model Address {
@@ -148,25 +151,35 @@ model typeState {
 }
 
 model Role{
-  idRole        String @unique
-  role_Name     String @unique
-  create_At     DateTime @default(now())
-  user          User[]
-  permissions   permissions @relation(fields: [permissionsId], references: [idPermissions])
-  permissionsId String
-
+  idRole          String @unique
+  role_Name       String @unique
+  create_At       DateTime @default(now())
+  user            User[]
+  permissions     Permissions @relation(fields: [permissionsId], references: [idPermissions])
+  permissionsId   String
+  permissionToRole PermissionsToRole[] @relation("PermissionToRole")
   @@id([idRole, permissionsId])
 }
 
-model permissions{
+model Permissions{
   idPermissions         String @unique
   permission            String
   descriptionPermission String
   create_At             DateTime @default(now())
   update_At             DateTime @updatedAt
   role                  Role[]
-
+  permissionToRole      PermissionsToRole[] @relation("PermissionToRole")
   @@id([idPermissions])
+}
+
+model PermissionsToRole {
+  permissionId String
+  permission   Permissions @relation("PermissionToRole", fields: [permissionId], references: [idPermissions])
+  roleId       String
+  role         Role @relation("PermissionToRole", fields: [roleId], references: [idRole])
+
+  @@id([permissionId])
+  @@index([roleId])
 }
 
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR TOP SALES ----------------
