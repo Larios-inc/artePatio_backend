@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import { Request, NextFunction, Response } from 'express';
+import { Request, NextFunction, Response, json } from 'express';
 import bcryptjs from 'bcryptjs';
 
 import { generateJWT } from "../../helpers/generateJWT";
+import { googleVerify } from "../../helpers/google-verify";
+import prismadb from "../../models/prismadb";
 
-
-
-const { user } = new PrismaClient()
 
 export const login = async (req:Request, res:Response, next:NextFunction) => {
     
@@ -14,7 +12,7 @@ export const login = async (req:Request, res:Response, next:NextFunction) => {
 
     try {
         
-        const userdb = await user.findFirst({ 
+        const userdb = await prismadb.user.findFirst({ 
             where:{ email }
         })
 
@@ -50,9 +48,37 @@ export const googleSignIn = async (req:Request, res:Response, next: NextFunction
 
     const { id_token } = req.body
 
-    res.json({
-        msg:'Todo Ok',
-        id_token
-    })
+    try {
+        
+        const { name, picture, email } = await googleVerify( id_token )
+
+        // this is a user getting by google trying to find if there is a user with same mail 
+        let user = await prismadb.user.findFirst({
+            where:{
+                email
+            }
+        })
+
+        if( !user ){
+            const data = {
+
+            }
+
+            google
+        }
+
+        res.json({
+            msg:'Todo Ok',
+            id_token
+        })
+
+    } catch (error) {
+        
+        res.status(400).json({
+            ok: false,
+            msg: 'Token not valid'
+        })
+
+    }
 
 }

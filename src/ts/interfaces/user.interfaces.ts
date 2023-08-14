@@ -10,12 +10,14 @@ export interface DataAddress {
 }
 
 export interface DataUser {
-    idUser    : string
+    idUser?    : string
     username  : string
     email     : string
     password  : string
     is_Active?: boolean
     roleId    : string
+    img?      : string
+    google    : boolean
 }
 
 export interface DataStateType {

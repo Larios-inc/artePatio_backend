@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 const { request } = require('express')
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import bcryptjs from 'bcryptjs'
 
 import { DataUser } from '../../../ts/interfaces/user.interfaces';
@@ -15,19 +15,20 @@ export const createUser = async (
     next:NextFunction
 ) => {
 
-    const { username, email, password, roleId }:DataUser = req.body
+    const { username, email, password, img }:DataUser = req.body
 
 
     try {
 
-        const id:string = uuidv4()
+        // const id:string = uuidv4()
 
         const postUser:DataUser = {
-            idUser: id,
             username,
             email,
+            img,
+            google: false,
             password,
-            roleId
+            roleId: "USER"
         }
         
         // setting the has to encript the password
