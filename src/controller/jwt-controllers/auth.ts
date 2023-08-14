@@ -8,7 +8,7 @@ import { generateJWT } from "../../helpers/generateJWT";
 
 const { user } = new PrismaClient()
 
-export const login =async (req:Request, res:Response, next:NextFunction) => {
+export const login = async (req:Request, res:Response, next:NextFunction) => {
     
     const {email, password} = req.body;
 
@@ -43,5 +43,16 @@ export const login =async (req:Request, res:Response, next:NextFunction) => {
             msg:'Go with admin'
         })
     }
+
+}
+
+export const googleSignIn = async (req:Request, res:Response, next: NextFunction) => {
+
+    const { id_token } = req.body
+
+    res.json({
+        msg:'Todo Ok',
+        id_token
+    })
 
 }

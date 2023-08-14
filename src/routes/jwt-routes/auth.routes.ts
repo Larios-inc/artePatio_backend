@@ -3,7 +3,7 @@ import { check } from "express-validator";
 
 import { validateAreas } from "../../middlewares/roles/validate";
 
-import { login } from "../../controller/jwt-controllers/auth";
+import { googleSignIn, login } from "../../controller/jwt-controllers/auth";
 
 
 const router = Router();
@@ -14,5 +14,10 @@ router.post('/login',[
     check('password','password is a must').not().isEmpty(),
     validateAreas
 ], login )
+
+router.post('/google',[
+    check('id_token','Token from gooogle is required').notEmpty(),
+    validateAreas
+], googleSignIn )
 
 export default router;
