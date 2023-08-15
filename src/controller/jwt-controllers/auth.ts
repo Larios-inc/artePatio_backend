@@ -4,6 +4,7 @@ import bcryptjs from 'bcryptjs';
 import { generateJWT } from "../../helpers/generateJWT";
 import { googleVerify } from "../../helpers/google-verify";
 import prismadb from "../../models/prismadb";
+import { DataUser } from '../../ts/interfaces/user.interfaces';
 
 
 export const login = async (req:Request, res:Response, next:NextFunction) => {
@@ -60,16 +61,41 @@ export const googleSignIn = async (req:Request, res:Response, next: NextFunction
         })
 
         if( !user ){
-            const data = {
 
+            const UserData: DataUser = {
+                username : `${name}${100 + Math.random()}`,
+                email: email,
+                password: '',
+                img: picture,
+                roleId: "USER",
+                is_Active: true,
+                google: true
             }
 
-            google
+            user = await prismadb.user.create({
+                data: {
+                    username: UserData.username,
+                    email:    UserData.email,
+                    img:      UserData.img,
+                    password: UserData.password,
+                    is_Active:UserData.is_Active,
+                    roleId:   UserData.roleId,
+                    google:   UserData.google
+                }
+            })
         }
 
+        if( !user.is_Active){
+            return res.status(401).json({
+                msg:'Go with administrator, user unauthorized'
+            })
+        }
+
+        const token = await generateJWT( user.idUser )
+
         res.json({
-            msg:'Todo Ok',
-            id_token
+            user,
+            token
         })
 
     } catch (error) {

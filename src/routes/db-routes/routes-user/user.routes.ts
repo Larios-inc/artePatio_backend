@@ -38,9 +38,9 @@ router.post('/',[
     check('email').custom( mailExist ),
     check('password').trim().notEmpty().isString().withMessage('enter a valid password'),
     check('password','pass must be strong').isStrongPassword(),
-    check('roleId','ID is a must').not().isEmpty(),
-    check('roleId').isIn(['USER','ADMIN','SUPER_ADMIN']),
-    check('roleId').custom( roleNameValid ),
+    // check('roleId','ID is a must').not().isEmpty(),
+    // check('roleId').isIn(['USER','ADMIN','SUPER_ADMIN']),
+    // check('roleId').custom( roleNameValid ),
     validateAreas
 ], createUser )
 

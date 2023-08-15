@@ -12,9 +12,9 @@ export async function googleVerify( token: string = '') {
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
 //   const payload = ticket.getPayload();
-  const { name, picture, email} = ticket.getPayload();
-  
-//   console.log(payload);
+  const { name, picture, email } = ticket.getPayload();
+//   ...rest 
+//   console.log(rest);
 
   return{
     name,

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 const { request } = require('express')
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import bcryptjs from 'bcryptjs'
 
 import { DataUser } from '../../../ts/interfaces/user.interfaces';
@@ -15,27 +15,36 @@ export const createUser = async (
     next:NextFunction
 ) => {
 
-    const { username, email, password, img }:DataUser = req.body
+    const { username, email, password, img }: DataUser = req.body
 
 
     try {
 
         // const id:string = uuidv4()
 
-        const postUser:DataUser = {
+        const postUser: DataUser = {
             username,
             email,
             img,
-            google: false,
             password,
-            roleId: "USER"
+            is_Active: true,
+            roleId: "USER",
+            google: false,
         }
         
         // setting the has to encript the password
         postUser.password = bcryptjs.hashSync(password, salt)
 
         await prismadb.user.create({
-            data: postUser
+            data: {
+                username: postUser.username,
+                email:    postUser.email,
+                password: postUser.password,
+                img:      postUser.img,
+                is_Active:postUser.is_Active,
+                roleId:   postUser.roleId,
+                google:   postUser.google
+            }
         })
 
         return res.status(201).json({

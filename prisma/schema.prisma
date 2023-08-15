@@ -90,7 +90,7 @@ model OrderItems {
 //  ----------------- HERE WE ARE SETTING THE MODELS FOR OUR USERS ----------------
 
 model User {
-  idUser             String @id @unique @default(uuid())
+  idUser             String @unique @default(uuid())
   username           String @unique
   email              String @unique
   password           String
@@ -106,7 +106,7 @@ model User {
   created_At         DateTime @default(now())
   updated_At         DateTime @updatedAt
 
-  @@index([username, email, roleId])
+  @@id([ idUser, roleId ])
 }
 
 model ContactInformation {
