@@ -21,7 +21,6 @@ export const createRole = async (
             role_Name,
             permissionsId
         }
-
         await prismadb.role.create({
             data: roleCreate
         })
